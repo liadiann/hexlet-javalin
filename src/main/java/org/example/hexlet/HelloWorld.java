@@ -1,5 +1,6 @@
 package org.example.hexlet;
 
+import org.apache.commons.text.StringEscapeUtils;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import static io.javalin.rendering.template.TemplateUtil.model;
@@ -23,9 +24,12 @@ public class HelloWorld {
         });
 
         app.get("/users/{id}/post/{postId}", ctx -> {
-            var userId = ctx.pathParamAsClass("id", Integer.class).get();
-            var postId = ctx.pathParamAsClass("postId", Integer.class).get();
-            ctx.result("User ID: " + userId + "\n" + "Post ID: " + postId);
+            var userId = ctx.pathParam("id");
+            var postId = ctx.pathParam("postId");
+            var escapedUserId = StringEscapeUtils.escapeHtml4(userId);
+            var escapedPostId = StringEscapeUtils.escapeHtml4(postId);
+            ctx.contentType("text/html");
+            ctx.result("User ID: " + escapedUserId + "\n" + "Post ID: " + escapedPostId);
         });
 
         app.get("/", ctx -> ctx.render("index.jte"));
