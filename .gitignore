@@ -2,5 +2,7 @@
 .gradle
 .idea
 
+jte-classes
+
 # Ignore Gradle build output directory
 build
