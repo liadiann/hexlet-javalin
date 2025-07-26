@@ -8,7 +8,7 @@ import org.example.hexlet.model.Course;
 import org.example.hexlet.dto.courses.CoursePage;
 import org.example.hexlet.dto.courses.CoursesPage;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class HelloWorld {
     public static void main(String[] args) {
@@ -34,13 +34,11 @@ public class HelloWorld {
 
         app.get("/", ctx -> ctx.render("index.jte"));
 
-        var needCourses = new ArrayList<Course>();
         var course1 = new Course("Архитектура веба", "Javalin");
         course1.setId(0);
         var course2 = new Course("Основы HTML", "HTML");
         course2.setId(1);
-        needCourses.add(course1);
-        needCourses.add(course2);
+        var needCourses = List.of(course1, course2);
 
         app.get("/courses/{id}", ctx -> {
             var id = ctx.pathParamAsClass("id", Integer.class).get();
@@ -55,7 +53,19 @@ public class HelloWorld {
         app.get("/courses", ctx -> {
             var courses = needCourses;
             var header = "Курсы по программированию";
-            var page = new CoursesPage(courses, header);
+            var title = ctx.queryParam("title");
+            var term = ctx.queryParam("term");
+            if (title != null) {
+                courses = needCourses.stream()
+                        .filter(c -> c.getName().equals(title))
+                        .toList();
+            }
+            if (term != null) {
+                courses = needCourses.stream()
+                        .filter(c -> c.getDescription().contains(term))
+                        .toList();
+            }
+            var page = new CoursesPage(courses, header, title, term);
             ctx.render("courses/index.jte", model("page", page));
         });
 

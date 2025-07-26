@@ -11,7 +11,7 @@
     </head>
     <body>
         <header>
-            <h2>Курсы</h2>
+            <h2><a href="/courses">Курсы</a></h2>
             <p><a href="/">Главная страница</a></p>
         </header>
         ${content}
