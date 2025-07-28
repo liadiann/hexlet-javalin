@@ -11,8 +11,11 @@
     </head>
     <body>
         <header>
-            <h2><a href="/courses">Курсы</a></h2>
             <p><a href="/">Главная страница</a></p>
+            <p><a href="/courses">Курсы</a></p>
+            <p><a href="/users">Пользователи</a></p>
+            <p><a href="/users/build">Регистрация пользователя</a></p>
+            <p><a href="/courses/build">Создать курс</a></p>
         </header>
         ${content}
         <footer>
