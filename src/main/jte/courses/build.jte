@@ -16,13 +16,13 @@
             <div>
                 <label>
                     Название курса
-                    <input type="text" required name="name">
+                    <input type="text" required name="name" value="${page.getName()}">
                 </label>
             </div>
             <div>
                 <label>
                     Описание
-                    <input type="text" name="description" required>
+                    <input type="text" name="description" required value="${page.getDescription()}">
                 </label>
             </div>
             <input type="submit" value="Создать курс">

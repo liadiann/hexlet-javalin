@@ -1,3 +1,4 @@
+@import org.example.hexlet.util.NamedRoutes
 @import org.example.hexlet.dto.users.UsersPage
 @param UsersPage page
 
@@ -7,7 +8,7 @@
             <p>Пока не добавлено ни одного пользователя</p>
         @else
              @for(var user : page.getUsers())
-                    <h2><a href="/users/${user.getId()}">${user.getName()}</a></h2>
+                    <h2><a href="${NamedRoutes.userPath(user.getId())}">${user.getName()}</a></h2>
             @endfor
         @endif
     `
