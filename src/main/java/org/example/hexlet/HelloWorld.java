@@ -6,9 +6,12 @@ import io.javalin.rendering.template.JavalinJte;
 
 import org.example.hexlet.controller.CoursesController;
 import org.example.hexlet.controller.UsersController;
+import org.example.hexlet.dto.MainPage;
 import org.example.hexlet.util.NamedRoutes;
 
 import java.time.LocalDateTime;
+
+import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class HelloWorld {
     public static void main(String[] args) {
@@ -22,7 +25,12 @@ public class HelloWorld {
             System.out.println("Дата и время поступления запроса: " + time);
         });
 
-        app.get("/", ctx -> ctx.render("index.jte"));
+        app.get("/", ctx -> {
+            var visited = Boolean.valueOf(ctx.cookie("visited"));
+            var page = new MainPage(visited);
+            ctx.render("index.jte", model("page", page));
+            ctx.cookie("visited", String.valueOf(true));
+        });
 
         app.get(NamedRoutes.buildUserPath(), UsersController::build);
 
