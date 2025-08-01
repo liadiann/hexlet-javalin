@@ -1,3 +1,4 @@
+@import org.example.hexlet.util.NamedRoutes
 @import org.example.hexlet.dto.MainPage
 @param MainPage page
 
@@ -6,8 +7,10 @@
     content = @`
         <h1 class="text-body-emphasis">Привет, Хекслет!</h1>
         <p>Javalin + jte</p>
-        @if(!page.isVisited())
-            <p>Это сообщение показывается только один раз. Если вы хотите увидеть его снова, сотрите куки</p>
+        <a href="${NamedRoutes.buildSessionPath()}">Войти в учетную запись</a>
+        @if(page.getCurrentUser() != null)
+            <p>Добро пожаловать, ${page.getCurrentUser()}</p>
+            <p>Чтобы разлогиниться, удалите куку JSESSIONID из браузера</p>
         @endif
     `
 )
