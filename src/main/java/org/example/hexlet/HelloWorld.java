@@ -8,11 +8,18 @@ import org.example.hexlet.controller.CoursesController;
 import org.example.hexlet.controller.UsersController;
 import org.example.hexlet.util.NamedRoutes;
 
+import java.time.LocalDateTime;
+
 public class HelloWorld {
     public static void main(String[] args) {
         var app = Javalin.create(config -> {
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte());
+        });
+
+        app.before(ctx -> {
+            LocalDateTime time = LocalDateTime.now();
+            System.out.println("Дата и время поступления запроса: " + time);
         });
 
         app.get("/", ctx -> ctx.render("index.jte"));
