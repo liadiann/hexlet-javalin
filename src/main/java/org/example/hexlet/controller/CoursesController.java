@@ -10,11 +10,13 @@ import org.example.hexlet.model.Course;
 import org.example.hexlet.repository.CourseRepository;
 import org.example.hexlet.util.NamedRoutes;
 
+import java.sql.SQLException;
+
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class CoursesController {
 
-    public static void index(Context ctx) {
+    public static void index(Context ctx) throws SQLException {
         var courses = CourseRepository.getEntities();
         var header = "Курсы по программированию";
         var title = ctx.queryParam("title");
@@ -34,7 +36,7 @@ public class CoursesController {
         ctx.render("courses/index.jte", model("page", page));
     }
 
-    public static void show(Context ctx) {
+    public static void show(Context ctx) throws SQLException {
         var id = ctx.pathParamAsClass("id", Integer.class).get();
         var course = CourseRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("Такого курса еще нет"));
@@ -47,7 +49,7 @@ public class CoursesController {
         ctx.render("courses/build.jte", model("page", page));
     }
 
-    public static void create(Context ctx) {
+    public static void create(Context ctx) throws SQLException {
         try {
             var name = ctx.formParamAsClass("name", String.class)
                     .check(value -> value.length() > 2, "Слишком короткое название")
@@ -67,7 +69,7 @@ public class CoursesController {
         }
     }
 
-    public static void edit(Context ctx) {
+    public static void edit(Context ctx) throws SQLException {
         var id = ctx.pathParamAsClass("id", Integer.class).get();
         var user = CourseRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("Такого курса нет"));
@@ -75,7 +77,7 @@ public class CoursesController {
         ctx.render("courses/edit.jte", model("page", page));
     }
 
-    public static void update(Context ctx) {
+    public static void update(Context ctx) throws SQLException {
         var id = ctx.pathParamAsClass("id", Integer.class).get();
 
         var name = ctx.formParam("name");
@@ -86,12 +88,6 @@ public class CoursesController {
         course.setName(name);
         course.setDescription(email);
         CourseRepository.save(course);
-        ctx.redirect(NamedRoutes.coursesPath());
-    }
-
-    public static void destroy(Context ctx) {
-        var id = ctx.pathParamAsClass("id", Integer.class).get();
-        CourseRepository.delete(id);
         ctx.redirect(NamedRoutes.coursesPath());
     }
 
