@@ -22,9 +22,13 @@ import java.util.stream.Collectors;
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class HelloWorld {
+    private static String getDatabaseUrl() {
+        return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project");
+    }
+
     public static Javalin getApp() throws IOException, SQLException {
         var hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl("jdbc:h2:mem:hexlet_project;DB_CLOSE_DELAY=-1;");
+        hikariConfig.setJdbcUrl(getDatabaseUrl());
         var dataSource = new HikariDataSource(hikariConfig);
 
         // Получаем путь до файла в src/main/resources
@@ -79,6 +83,6 @@ public class HelloWorld {
 
     public static void main(String[] args) throws IOException, SQLException {
         var app = getApp();
-        app.start(7070);
+        app.start(8000);
     }
 }
