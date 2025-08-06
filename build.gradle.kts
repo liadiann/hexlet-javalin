@@ -30,7 +30,7 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("com.h2database:h2:2.2.220")
-    implementation("com.zaxxer:HikariCP:5.0.1")
+    implementation("com.zaxxer:HikariCP:7.0.0")
     implementation("org.postgresql:postgresql:42.7.7")
 }
 
